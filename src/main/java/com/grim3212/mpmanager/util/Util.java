@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.google.gson.stream.JsonReader;
@@ -58,5 +59,26 @@ public class Util {
 		}
 
 		return packs;
+	}
+
+	public static String getMMCName(ModPack pack) {
+		File cfg = new File(pack.folderPath + File.separator + "instance.cfg");
+
+		if (cfg.exists()) {
+			// Read each line
+			try {
+				Optional<String> name = Files.lines(Paths.get(cfg.getPath())).filter(s -> s.startsWith("name=")).findFirst();
+
+				if (name.isPresent()) {
+					return name.get().replaceAll("name=", "");
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		//Fallback to given name or folder name
+		return pack.givenName;
 	}
 }

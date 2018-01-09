@@ -83,7 +83,7 @@ public class PageHome {
 
 		for (ModPack pack : Util.getCurrentPacks()) {
 			VBox mp = new VBox();
-			Text modPackName = new Text(pack.givenName);
+			Text modPackName = new Text(Util.getMMCName(pack));
 			modPackName.setFont(Font.font("Verdana", 20));
 			Button updateBtn = new Button("Update Pack");
 			updateBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -296,7 +296,7 @@ public class PageHome {
 
 		dialog.initOwner(this.parent);
 		dialog.initModality(Modality.APPLICATION_MODAL);
-		dialog.setTitle("Update " + pack.name);
+		dialog.setTitle("Update " + Util.getMMCName(pack));
 		dialog.setResizable(false);
 
 		BorderPane border = new BorderPane();
