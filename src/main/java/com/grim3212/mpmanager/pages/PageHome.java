@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,16 +29,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class PageHome {
+public class PageHome extends Page {
 
-	private Stage parent;
 	private FlowPane modPacksContainer;
 
 	public PageHome(Stage parent) {
-		this.parent = parent;
+		super(parent);
 	}
 
-	public Scene setupPage() {
+	@Override
+	public Node setupPage() {
 		BorderPane container = new BorderPane();
 		container.setPadding(new Insets(25, 25, 25, 25));
 
@@ -72,10 +73,7 @@ public class PageHome {
 
 		this.refreshModPacks();
 
-		Scene homeScene = new Scene(container, 350, 450);
-		homeScene.getStylesheets().add(Util.getResource("stylesheets/application.css"));
-
-		return homeScene;
+		return container;
 	}
 
 	public void refreshModPacks() {

@@ -106,6 +106,8 @@ public class ModPackDownload {
 		// Add everything to the dialog and display it
 		dialog.setScene(addInstanceScene);
 		dialog.show();
+		
+		ModPackManager.selectedTab.select(1);
 
 		// When we are done setting up the scene move on to the actual downloading
 
