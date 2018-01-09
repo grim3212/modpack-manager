@@ -106,7 +106,7 @@ public class ModPackDownload {
 		// Add everything to the dialog and display it
 		dialog.setScene(addInstanceScene);
 		dialog.show();
-		
+
 		ModPackManager.selectedTab.select(1);
 
 		// When we are done setting up the scene move on to the actual downloading
@@ -226,6 +226,17 @@ public class ModPackDownload {
 								currentItemProgress.setProgress(progress / 100d);
 							}
 						});
+					}
+				});
+
+				// When finished we still want to update this
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						// Update current progress while downloading
+						if (downloadedMod != null && downloadedMod.exists())
+							currentLbl.setText(downloadedMod.getName());
+						currentItemProgress.setProgress(1);
 					}
 				});
 
