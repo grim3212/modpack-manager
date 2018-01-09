@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -166,6 +165,7 @@ public class ModPackDownload {
 					pack.modpackManagerVersion = 1;
 
 					// Remove old stuff if we are going to update
+
 					if (oldPack != null) {
 
 						// First remove the mods
@@ -362,10 +362,11 @@ public class ModPackDownload {
 			} else {
 				System.out.println("MultiMC instance.cfg already exists!");
 
-				PrintWriter writer = new PrintWriter(cfg, "UTF-8");
-
 				// Read in line by line
-				List<String> lines = Files.lines(Paths.get(cfg.toURI())).collect(Collectors.toList());
+				List<String> lines = Files.readAllLines(Paths.get(cfg.getPath()));
+
+				// Create printwriter after we get lines so we don't override it
+				PrintWriter writer = new PrintWriter(cfg, "UTF-8");
 
 				for (String line : lines) {
 					if (line.startsWith("IntendedVersion=")) {
@@ -407,7 +408,7 @@ public class ModPackDownload {
 		}
 	}
 
-	public void removeMods(ModPack oldPack, ModPack newPack) {
+	public int removeMods(ModPack oldPack, ModPack newPack) {
 		int removed = 0;
 
 		// Compare new mods to old mods and remove the same ones
@@ -456,9 +457,10 @@ public class ModPackDownload {
 		}
 
 		System.out.println("Removed " + removed + " old mods!");
+		return removed;
 	}
 
-	public void removeOverrides(ModPack oldPack) {
+	public int removeOverrides(ModPack oldPack) {
 		try {
 			if (!oldPack.overrideFiles.isEmpty()) {
 				int removed = 0;
@@ -478,11 +480,14 @@ public class ModPackDownload {
 				}
 
 				System.out.println(removed + " overrides were removed!");
+				return removed;
 			} else {
 				System.out.println("No override files found to be removed!");
 			}
 		} catch (Exception e) {
 			Alerts.createErrorAlert("Error while removing overrides", "Error while removing overrides", e.getLocalizedMessage());
 		}
+
+		return 0;
 	}
 }
