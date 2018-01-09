@@ -1,6 +1,8 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java-library'
 
+version = "1.0.0"
+
 repositories {
     mavenCentral()
     jcenter()
