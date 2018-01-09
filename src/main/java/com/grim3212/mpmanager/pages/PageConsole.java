@@ -11,7 +11,6 @@ import com.grim3212.mpmanager.util.Console;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
@@ -25,8 +24,8 @@ public class PageConsole extends Page {
 		this.text = new TextArea();
 		this.text.setWrapText(true);
 		this.text.setEditable(false);
-		this.text.prefWidthProperty().bind(parent.widthProperty().subtract(20));
-		this.text.prefHeightProperty().bind(parent.heightProperty());
+		this.text.prefWidthProperty().bind(parent.widthProperty().subtract(30));
+		this.text.prefHeightProperty().bind(parent.heightProperty().subtract(30));
 
 		// Scroll to bottom
 		this.text.textProperty().addListener(new ChangeListener<Object>() {
@@ -42,8 +41,8 @@ public class PageConsole extends Page {
 		FileOutputStream errFos = new FileOutputStream(FileDescriptor.err);
 
 		// Create the tee's
-		TeeOutputStream out = new TeeOutputStream(outFos, console);
-		TeeOutputStream err = new TeeOutputStream(errFos, console);
+		TeeOutputStream out = new TeeOutputStream(console, outFos);
+		TeeOutputStream err = new TeeOutputStream(console, errFos);
 
 		PrintStream outPs = new PrintStream(out, true);
 		PrintStream errPs = new PrintStream(err, true);
@@ -54,9 +53,7 @@ public class PageConsole extends Page {
 
 	@Override
 	public Node setupPage() {
-		ScrollPane container = new ScrollPane();
-		container.setContent(this.text);
-		return container;
+		return this.text;
 	}
 
 }
