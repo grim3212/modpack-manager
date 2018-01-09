@@ -1,0 +1,24 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'java-library'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+	compile 'com.google.code.gson:gson:2.8.2'
+	
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.grim3212.mpmanager.ModPackManager'
+		attributes 'Class-Path': '.'
+    }
+	
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
